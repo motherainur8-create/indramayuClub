@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Piramida Guard</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --nur8-gold: #ffd700;
+            --nur8-bg: #050505;
+            --nur8-neon: #00f2ff;
+        }
+        body {
+            background-color: var(--nur8-bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: #111;
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid var(--nur8-gold);
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            width: 350px;
+        }
+        .avatar-nur {
+            width: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--nur8-neon);
+            margin-bottom: 15px;
+        }
+        h2 { color: var(--nur8-gold); margin-bottom: 5px; }
+        p { font-size: 11px; opacity: 0.7; margin-bottom: 25px; }
+        
+        #g_id_signin { display: flex; justify-content: center; }
+        
+        .status-msg {
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--nur8-neon);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <img src="https://uploads.onecompiler.io/448r2umqe/44aq6y4je/1000023624.jpg" class="avatar-nur">
+    <h2>NUR LOGIN</h2>
+    <p>Sistem Pengawasan Piramida Guard<br>Indramayu Club</p>
+
+    <div id="g_id_onload"
+         data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <div id="status-nur" class="status-msg">Hadir Pak Dulkohar, silakan login...</div>
+</div>
+
+<script>
+    function handleCredentialResponse(response) {
+        // Mendekode token untuk mendapatkan email (Logika Nur)
+        const responsePayload = parseJwt(response.credential);
+        const email = responsePayload.email;
+        const status = document.getElementById('status-nur');
+
+        status.innerText = "Menganalisa identitas: " + email;
+
+        // LOGIKA GERBANG NUR
+        if (email === "motherainur8@gmail.com") {
+            status.innerText = "Hadir Pak Dulkohar. Akses Nur 8 Diterima.";
+            setTimeout(() => { window.location.href = "dimensi_03_pusat/BANK_gedung.html"; }, 2000);
+        } else if (email === "indramayuclubmakrifat@gmail.com") {
+            status.innerText = "Salam Nur 1. Gerbang Utama Terbuka.";
+            setTimeout(() => { window.location.href = "index.html"; }, 2000);
+        } else {
+            status.style.color = "red";
+            status.innerText = "Maaf Khalifah, akun ini tidak terdaftar di Piramida Guard.";
+        }
+    }
+
+    function parseJwt(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(window.atob(base64));
+    }
+</script>
+
+</body>
+</html>
